@@ -178,7 +178,7 @@ def places_search():
     for p in list_places:
         d = p.to_dict()
         d.pop('amenities', None)
-        _users = storage.get(User, d.get('user_id'))            
+        _users = storage.get(User, d.get('user_id'))
         d['user_id'] = _users.to_dict()
         places.append(d)
 
