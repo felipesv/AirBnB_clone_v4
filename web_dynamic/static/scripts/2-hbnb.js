@@ -34,7 +34,7 @@ $(document).ready(function () {
     url: 'http://0.0.0.0:5001/api/v1/status/',
     success: function (outmsg) {
       /* change the color staus to avaliable */
-      $('#api_status').addclass('available');
+      $('#api_status').addClass('available');
     },
     error: function (error) {
       /* change the color staus to avaliable */
