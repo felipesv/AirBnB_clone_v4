@@ -46,9 +46,29 @@ $(document).ready(function () {
       type: 'POST',
       contentType: 'application/json',
       url: 'http://0.0.0.0:5001/api/v1/places_search',
-      data: 'JSON.stringify(data)',
+      data: JSON.stringify(data),
       success: function (outdata) {
-        console.log(data);
+        outdata.forEach(element => {
+          $('.places').append(
+            '<article>' +
+              '<div class="title_box">' +
+                '<h2>' + element.name + '</h2>' +
+                '<div class="price_by_night">' + element.price_by_night + '</div>' +
+              '</div>' +
+              '<div class="information">' +
+                '<div class="max_guest">' + element.max_guest + '</div>' +
+                '<div class="number_rooms">' + element.number_rooms + '</div>' +
+                '<div class="number_bathrooms">' + element.number_bathrooms + '</div>' +
+              '</div>' +
+              '<div class="user">' +
+                '<b>Owner:</b>' + ' ' + element.user_id.first_name + ' ' + element.user_id.last_name +
+              '</div>' +
+              '<div class="description">' +
+                element.description +
+              '</div>' +
+					'</article>'
+          )
+        });
       }
     });
   }
