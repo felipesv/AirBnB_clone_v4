@@ -1,18 +1,45 @@
 $(document).ready(function () {
-  /* Dictionary with the amenities checked id: name */
+  /* Dictionary with the amenities, states, cities checked id: name */
   const amenitiesCheck = {};
+  const statesCheck = {};
+  const citiesCheck = {};
 
-  $('.popover > ul > li > input:checkbox').on('click', function () {
+  $('input:checkbox').on('click', function () {
     /* verify if the box clicked was checked or not (is checked) */
     if ($(this).is(':checked')) {
-      /* add the checked amenity to the dictionary */
-      amenitiesCheck[$(this).attr('data-id')] = $(this).attr('data-name');
+      switch ($(this).attr('data-class')) {
+        case 'state':
+          /* add the checked city to the dictionary */
+          statesCheck[$(this).attr('data-id')] = $(this).attr('data-name');
+          break;
+        case 'city':
+          /* add the checked city to the dictionary */
+          citiesCheck[$(this).attr('data-id')] = $(this).attr('data-name');
+          break;
+        case 'amenity':
+          /* add the checked amenity to the dictionary */
+          amenitiesCheck[$(this).attr('data-id')] = $(this).attr('data-name');
+          break;
+      }
     } else {
-      /* deletes the amenity from dictionary */
-      delete amenitiesCheck[$(this).attr('data-id')];
+      switch ($(this).attr('data-class')) {
+        case 'state':
+          /* deletes the state from dictionary */
+          delete statesCheck[$(this).attr('data-id')];
+          break;
+        case 'city':
+          /* deletes the city from dictionary */
+          delete citiesCheck[$(this).attr('data-id')];
+          break;
+        case 'amenity':
+          /* deletes the amenity from dictionary */
+          delete amenitiesCheck[$(this).attr('data-id')];
+          break;
+      }
     }
-    /* call the function that print the amenities checked */
+    /* call the function that print the amenities, states, cities checked */
     printAmenities();
+    printStatesCities();
   });
 
   function printAmenities () {
@@ -24,6 +51,26 @@ $(document).ready(function () {
     for (const key in amenitiesCheck) {
       /* print each amenity in the aminities box */
       $('#amenitiesBox').append(comma + amenitiesCheck[key]);
+      /* separate by comma */
+      comma = ', ';
+    }
+  }
+  function printStatesCities () {
+    /* separator */
+    let comma = '';
+    /* clean the html content in amenities box */
+    $('#statescitiesBox').html('');
+    /* runs the dictionary */
+    for (const key in statesCheck) {
+      /* print each amenity in the states box */
+      $('#statescitiesBox').append(comma + statesCheck[key]);
+      /* separate by comma */
+      comma = ', ';
+    }
+    /* runs the dictionary */
+    for (const key in citiesCheck) {
+      /* print each amenity in the cities box */
+      $('#statescitiesBox').append(comma + citiesCheck[key]);
       /* separate by comma */
       comma = ', ';
     }
@@ -48,7 +95,9 @@ $(document).ready(function () {
       url: 'http://0.0.0.0:5001/api/v1/places_search',
       data: JSON.stringify(data),
       success: function (outdata) {
+        /* clean the content in places */
         $('.places').html('');
+        /* append each place in places class */
         outdata.forEach(element => {
           $('.places').append(
             '<article>' +
@@ -73,9 +122,14 @@ $(document).ready(function () {
       }
     });
   }
+  /* event button (search) */
   $('.filters > button').on('click', function () {
     const data = {};
+    /* data filters */
     data.amenities = Object.keys(amenitiesCheck);
+    data.states = Object.keys(statesCheck);
+    data.cities = Object.keys(citiesCheck);
+    /* execute search request */
     getPlaces(data);
   });
   getPlaces();
