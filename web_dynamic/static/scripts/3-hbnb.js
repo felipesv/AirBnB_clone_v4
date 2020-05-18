@@ -36,12 +36,12 @@ $(document).ready(function () {
       /* change the color staus to avaliable */
       $('#api_status').addClass('available');
     },
-    error: function (error) {
+    error: function () {
       /* change the color staus to avaliable */
       $('#api_status').removeClass('available');
     }
   });
-  function getPlaces (data={}) {
+  function getPlaces (data = {}) {
     $.ajax({
       type: 'POST',
       contentType: 'application/json',
@@ -66,8 +66,8 @@ $(document).ready(function () {
               '<div class="description">' +
                 element.description +
               '</div>' +
-					'</article>'
-          )
+            '</article>'
+          );
         });
       }
     });

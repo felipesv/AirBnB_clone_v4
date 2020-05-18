@@ -36,7 +36,7 @@ $(document).ready(function () {
       /* change the color staus to avaliable */
       $('#api_status').addClass('available');
     },
-    error: function (error) {
+    error: function () {
       /* change the color staus to avaliable */
       $('#api_status').removeClass('available');
     }
